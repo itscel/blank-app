@@ -15,15 +15,10 @@ AudioSegment.ffprobe = which("ffprobe")
 
 st.title("AI audio detect")
 
-uploaded_file = st.file_uploader("Upload audio", type=["wav", "mp3", "m4a", "ogg", "flac"])
-
-if uploaded_file is not None:
-    try:
-        data, sr = librosa.load(io.BytesIO(uploaded_file.read()), sr=None, mono=True)
-        st.write(f"Sample rate: {sr}")
-        st.write(f"Audio data length: {len(data)}")
-    except Exception as e:
-        st.error(f"Failed to load audio: {e}")
+uploaded_file = st.file_uploader(
+    "Upload audio",
+    type=["wav", "mp3", "m4a", "ogg", "flac"]
+)
 
 if uploaded_file is not None:
     file_ext = os.path.splitext(uploaded_file.name)[1][1:].lower()  # get extension, lowercase
