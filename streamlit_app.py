@@ -6,18 +6,14 @@ import librosa.display
 import numpy as np
 from scipy.signal import butter, lfilter
 import matplotlib.pyplot as plt
+import os
 
 st.title("AI audio detect")
 
-# uploaded_file = st.file_uploader("Upload an audio file", type=["m4a", "mp3", "wav", "ogg", "flac"])
-
-# if uploaded_file is not None:
-#     # Load the uploaded audio file with pydub
-#     audio = AudioSegment.from_file(uploaded_file)
-
 uploaded_file = st.file_uploader("Upload audio")
 if uploaded_file is not None:
-    audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()))
+    file_ext = os.path.splitext(uploaded_file.name)[1][1:]  # e.g. 'wav', 'mp3', etc.
+    audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()), format=file_ext)
     
     # Export to WAV into a bytes buffer
     wav_io = io.BytesIO()
