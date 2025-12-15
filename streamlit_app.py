@@ -1,3 +1,5 @@
+pip install pydub
+
 import streamlit as st
 from pydub import AudioSegment
 import io
