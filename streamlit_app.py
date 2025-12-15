@@ -9,11 +9,15 @@ import matplotlib.pyplot as plt
 
 st.title("AI audio detect")
 
-uploaded_file = st.file_uploader("Upload an audio file", type=["m4a", "mp3", "wav", "ogg", "flac"])
+# uploaded_file = st.file_uploader("Upload an audio file", type=["m4a", "mp3", "wav", "ogg", "flac"])
 
+# if uploaded_file is not None:
+#     # Load the uploaded audio file with pydub
+#     audio = AudioSegment.from_file(uploaded_file)
+
+uploaded_file = st.file_uploader("Upload audio")
 if uploaded_file is not None:
-    # Load the uploaded audio file with pydub
-    audio = AudioSegment.from_file(uploaded_file)
+    audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()))
     
     # Export to WAV into a bytes buffer
     wav_io = io.BytesIO()
