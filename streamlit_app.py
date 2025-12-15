@@ -15,7 +15,7 @@ AudioSegment.ffprobe = which("ffprobe")
 
 st.title("AI audio detect")
 
-uploaded_file = st.file_uploader("Upload audio")
+uploaded_file = st.file_uploader("Upload audio: .wav")
 if uploaded_file is not None:
     file_ext = os.path.splitext(uploaded_file.name)[1][1:]  # e.g. 'wav', 'mp3', etc.
     try:
