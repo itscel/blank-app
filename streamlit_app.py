@@ -8,6 +8,11 @@ from scipy.signal import butter, lfilter
 import matplotlib.pyplot as plt
 import os
 
+from pydub.utils import which
+
+AudioSegment.converter = which("ffmpeg")
+AudioSegment.ffprobe = which("ffprobe")
+
 st.title("AI audio detect")
 
 uploaded_file = st.file_uploader("Upload audio")
