@@ -15,35 +15,21 @@ AudioSegment.ffprobe = which("ffprobe")
 
 st.title("AI audio detect")
 
-uploaded_file = st.file_uploader("Upload audio", type=["wav", "mp3", "m4a", "ogg", "flac"])
-
+uploaded_file = st.file_uploader("Upload audio")
 if uploaded_file is not None:
+    file_ext = os.path.splitext(uploaded_file.name)[1][1:]  # e.g. 'wav', 'mp3', etc.
     try:
-        # Load audio with librosa (uses soundfile)
-        data, sr = librosa.load(io.BytesIO(uploaded_file.read()), sr=None, mono=True)
-        
-        # Save as WAV in bytes buffer
-        wav_io = io.BytesIO()
-        sf.write(wav_io, data, sr, format='WAV')
-        wav_io.seek(0)
-        
-        st.success("Audio loaded and converted to WAV in-memory!")
-        
-        # You can now pass wav_io to other functions or process it further
-        # e.g. signal, sr = librosa.load(wav_io, sr=None, mono=True)
-        
-        st.write(f"Sample rate: {sr}")
-        st.write(f"Audio duration (seconds): {len(data)/sr:.2f}")
-        
+        audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()), format=file_ext)
     except Exception as e:
-        st.error(f"Could not load audio file: {e}")
+        st.error(f"Failed to load audio file. Unsupported format or decoding error: {e}")
+        st.stop()
     
-    # Export to WAV in a bytes buffer
+    # Export to WAV into a bytes buffer
     wav_io = io.BytesIO()
     audio.export(wav_io, format="wav")
     wav_io.seek(0)
     
-    st.success("Conversion to WAV complete!")
+    st.success("Conversion complete!")
     
     # Load audio with librosa from the bytes buffer
     signal, sr = librosa.load(wav_io, sr=None, mono=True)
