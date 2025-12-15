@@ -13,7 +13,11 @@ st.title("AI audio detect")
 uploaded_file = st.file_uploader("Upload audio")
 if uploaded_file is not None:
     file_ext = os.path.splitext(uploaded_file.name)[1][1:]  # e.g. 'wav', 'mp3', etc.
-    audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()), format=file_ext)
+    try:
+        audio = AudioSegment.from_file(io.BytesIO(uploaded_file.read()), format=file_ext)
+    except Exception as e:
+        st.error(f"Failed to load audio file. Unsupported format or decoding error: {e}")
+        st.stop()
     
     # Export to WAV into a bytes buffer
     wav_io = io.BytesIO()
